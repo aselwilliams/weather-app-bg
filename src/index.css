@@ -6,7 +6,7 @@
 
 body {
   font-family: Arial, Helvetica, sans-serif, sens-serif;
-  margin:auto;
+  margin: auto;
   min-height: 100vh;
   /* width: 40%; */
 }
@@ -14,7 +14,7 @@ body {
 .app {
   background-image: url("./assets/cold-bg.jpeg");
   background-size: cover;
-  object-fit:contain;
+  object-fit: contain;
   background-position: top;
   transition: 0.4 ease-in;
 }
