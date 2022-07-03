@@ -1,10 +1,25 @@
-import './App.css';
+import {useState, useEffect} from 'react'
 const api={
-  base:'https://api.openweathermap.org/data/2.5',
-  key:'745b34e39ffe426f3d05796a851f853e'
+  base:'http://api.openweathermap.org/data/2.5/',
+  key:'a835f9ccf88c2f0a8fc83735c26ec100'
 }
 
 function App() {
+  const [query, setQuery]=useState('')
+  const [weather, setWeather]=useState({})
+
+  const search=(e)=>{
+    if(e.key==='Enter'){
+      fetch(`${api.base}weather?q=${query}&units=metric&APPID=${api.key}`)
+      .then(res=>res.json())
+      .then(result=>{
+        setWeather(result);
+        setQuery('')
+        console.log(result)
+      })
+    }
+  }
+
 
   const dateBuilder=(d)=>{
   let months=['January','Febuary','March', 'April','May','June','July','August','September','October','November','December'];
@@ -20,16 +35,29 @@ function App() {
     <div className="app">
       <main>
         <div className='search-box'>
-          <input type='text' className='search-bar' placeholder='Search...'/>
+          <input type='text' className='search-bar' value={query} placeholder='Search...' 
+          onKeyPress={search} 
+          onChange={(e)=>setQuery(e.target.value)}/>
         </div>
-        <div className='location-box'>
-          <div className='location'>New York City, US</div>
+        {(typeof weather.main!== 'undefined') ? (
+          <>
+            <div className='location-box'>
+          <div className='location'>{weather.name} City, {weather.sys.country}</div>
           <div className='date'>{dateBuilder(new Date())}</div>
         </div>
+        <div className='weather-box'>
+          <div className="temp">
+            {Math.round(weather.main.temp)}°C
+          </div>
+          <div className="weather">{weather.weather[0].main}</div>
+        </div>
+          </>
+        ) : ('')}
+      
       </main>
     
     </div>
   );
 }
 
-export default App;
+export default App
